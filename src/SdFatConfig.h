@@ -34,14 +34,16 @@
 #endif  // __AVR__
 
 //------------- Adafruit configuration -------------//
-#define USE_BLOCK_DEVICE_INTERFACE 1
-#define FAT12_SUPPORT 1
+#ifndef SDFAT_FILE_TYPE
 #define SDFAT_FILE_TYPE 1
-#define USE_SPI_ARRAY_TRANSFER 1
+#endif
 
-// This option will take around 2K of flash, skip for AVR
-#ifndef __AVR__
-#define USE_UTF8_LONG_NAMES 1
+#ifndef USE_BLOCK_DEVICE_INTERFACE
+#define USE_BLOCK_DEVICE_INTERFACE 1
+#endif
+
+#ifndef FAT12_SUPPORT
+#define FAT12_SUPPORT 1
 #endif
 
 // Backward-compatible define
@@ -146,7 +148,7 @@
  * This may be faster for some boards.  Do not use this with AVR boards.
  */
 #ifndef USE_SPI_ARRAY_TRANSFER
-#define USE_SPI_ARRAY_TRANSFER 0
+#define USE_SPI_ARRAY_TRANSFER 1
 #endif  // USE_SPI_ARRAY_TRANSFER
 /**
  * SD maximum initialization clock rate.
@@ -179,19 +181,19 @@
 #ifndef USE_BLOCK_DEVICE_INTERFACE
 #define USE_BLOCK_DEVICE_INTERFACE 0
 #endif  // USE_BLOCK_DEVICE_INTERFACE
- /**
- * SD_CHIP_SELECT_MODE defines how the functions
- * void sdCsInit(SdCsPin_t pin) {pinMode(pin, OUTPUT);}
- * and
- * void sdCsWrite(SdCsPin_t pin, bool level) {digitalWrite(pin, level);}
- * are defined.
- *
- * 0 - Internal definition is a strong symbol and can't be replaced.
- *
- * 1 - Internal definition is a weak symbol and can be replaced.
- *
- * 2 - No internal definition and must be defined in the application.
- */
+/**
+* SD_CHIP_SELECT_MODE defines how the functions
+* void sdCsInit(SdCsPin_t pin) {pinMode(pin, OUTPUT);}
+* and
+* void sdCsWrite(SdCsPin_t pin, bool level) {digitalWrite(pin, level);}
+* are defined.
+*
+* 0 - Internal definition is a strong symbol and can't be replaced.
+*
+* 1 - Internal definition is a weak symbol and can be replaced.
+*
+* 2 - No internal definition and must be defined in the application.
+*/
 #ifndef SD_CHIP_SELECT_MODE
 #define SD_CHIP_SELECT_MODE 0
 #endif  // SD_CHIP_SELECT_MODE
@@ -277,7 +279,7 @@ typedef uint8_t SdCsPin_t;
  * is non-zero.
  */
 #ifndef CHECK_FLASH_PROGRAMMING
-#define CHECK_FLASH_PROGRAMMING 1
+#define CHECK_FLASH_PROGRAMMING 0
 #endif  // CHECK_FLASH_PROGRAMMING
 //------------------------------------------------------------------------------
 /**
